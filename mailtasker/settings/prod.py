@@ -129,3 +129,12 @@ COMPRESS_JS_FILTERS += [
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = environ.get('SECRET_KEY', SECRET_KEY)
 ########## END SECRET CONFIGURATION
+
+########## SENTRY CONFIGURATION
+SENTRY_DSN = environ.get("SENTRY_DSN",'')
+
+# Add raven to the list of installed apps
+INSTALLED_APPS = INSTALLED_APPS + (
+# ...
+'raven.contrib.django',
+)
