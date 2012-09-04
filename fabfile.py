@@ -15,6 +15,7 @@ HEROKU_ADDONS = (
     'newrelic:standard',
     'pgbackups:auto-month',
     'sentry:developer',
+    'mailgun:starter',
 )
 ########## END GLOBALS
 
@@ -85,7 +86,7 @@ def bootstrap():
         - Apply all database migrations.
         - Initialize New Relic's monitoring add-on.
     """
-    cont('heroku create', "Couldn't create the Heroku app, continue anyway?")
+    #cont('heroku create', "Couldn't create the Heroku app, continue anyway?")
 
     for addon in HEROKU_ADDONS:
         cont('heroku addons:add %s' % addon,
