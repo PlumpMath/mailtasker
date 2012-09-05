@@ -6,4 +6,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         result = create_route()
-        self.stdout.write(result)
+        self.stdout.write(result.text)

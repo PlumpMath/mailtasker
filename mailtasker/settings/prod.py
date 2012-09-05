@@ -139,6 +139,3 @@ INSTALLED_APPS = INSTALLED_APPS + (
 'raven.contrib.django',
 )
 ########## ENDSENTRY CONFIGURATION
-
-########## MAILGUN CONFIG
-MAILGUN_KEY = environ.get('MAILGUN_KEY')

@@ -2,6 +2,7 @@
 
 #SYS
 from datetime import timedelta
+from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 import socket
@@ -265,3 +266,7 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
+
+########## MAILGUN CONFIG
+MAILGUN_KEY = environ.get('MAILGUN_KEY')
+########## END MAILGUN CONFIG
