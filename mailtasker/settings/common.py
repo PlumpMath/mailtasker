@@ -5,12 +5,6 @@ from datetime import timedelta
 from os import environ
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
-import socket
-
-try:
-    HOSTNAME = socket.gethostname()
-except:
-    HOSTNAME = 'localhost'
 
 #LIB
 from djcelery import setup_loader
@@ -68,6 +62,8 @@ DATABASES = {
 
 
 ########## GENERAL CONFIGURATION
+HOSTNAME = environ.get('HOSTNAME','localhost')
+
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#time-zone
 TIME_ZONE = 'America/Los_Angeles'
 
