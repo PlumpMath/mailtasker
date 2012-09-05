@@ -44,7 +44,7 @@ class TaskList(models.Model):
                 Task.objects.create(
                     task_list = self,
                     value = line.strip(),
-                    order = self.tas_set.filter(is_completed=False).count(),
+                    order = self.task_set.filter(is_completed=False).count(),
                     )
 
     def notify(self):
