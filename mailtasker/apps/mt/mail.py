@@ -1,4 +1,8 @@
+#FRAMEWORK
 from django.conf import settings
+
+#LIB
+import requests
 
 def create_mailing_list(user):
     return requests.post(
