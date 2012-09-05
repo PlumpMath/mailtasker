@@ -24,6 +24,20 @@ def add_member(owner, user):
               }
         )
 
+def post_message(tasklist, body):
+    r = requests.\
+        post(("https://api.mailgun.net/v2/samples.mailgun.org/"
+              "messages"),
+             auth=("api", settings.MAILGUN_KEY),
+             data={
+                 "from": "MailTasker <app@mailtasker.com>",
+                 "to": [tasklist.id],
+                 "subject": tasklist.name,
+                 "text": body
+                 }
+             )
+    return r
+
 def create_route():
     r = requests.\
         post("https://api.mailgun.net/v2/routes",
