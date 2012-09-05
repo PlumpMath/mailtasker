@@ -1,8 +1,10 @@
 import logging
 
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Handler for HTTP POST to http://myhost.com/messages for the route defined above
+@csrf_exempt
 def incoming_message(request):
      if request.method == 'POST':
          sender    = request.POST.get('sender')
