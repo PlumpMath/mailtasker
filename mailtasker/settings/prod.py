@@ -138,3 +138,5 @@ INSTALLED_APPS = INSTALLED_APPS + (
 # ...
 'raven.contrib.django',
 )
+########## ENDSENTRY CONFIGURATION
+
