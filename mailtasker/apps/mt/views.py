@@ -1,7 +1,9 @@
+import logging
+
 from django.http import HttpResponse
 
 # Handler for HTTP POST to http://myhost.com/messages for the route defined above
-def on_incoming_message(request):
+def incoming_message(request):
      if request.method == 'POST':
          sender    = request.POST.get('sender')
          recipient = request.POST.get('recipient')
@@ -10,7 +12,7 @@ def on_incoming_message(request):
          body_plain = request.POST.get('body-plain', '')
          body_without_quotes = request.POST.get('stripped-text', '')
 
-         raise Exception("Look up! ^^")
+         logging.exception("Look up! ^^")
          # note: other MIME headers are also posted here...
 
          # attachments:
