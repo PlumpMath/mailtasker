@@ -4,7 +4,8 @@ def create_mailing_list(user):
     return requests.post(
         "https://api.mailgun.net/v2/lists",
         auth=('api', settings.MAILGUN_KEY),
-        data={'address': '%d@%s'%(user.id,settings.HOSTNAME)})
+        data={'address': '%d@%s'%(user.id,settings.HOSTNAME)}
+        )
 
 def add_member(owner, user):
     return requests.post(
@@ -14,7 +15,8 @@ def add_member(owner, user):
               'address': user.email,
               'name': user.name,
               #TODO 'vars': '{"age": 26}'},
-              )
+              }
+        )
 
 def create_route():
     r = requests.\
