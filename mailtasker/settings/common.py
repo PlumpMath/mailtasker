@@ -1,10 +1,17 @@
 """Common settings and globals."""
 
-
+#SYS
 from datetime import timedelta
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+import socket
 
+try:
+    HOSTNAME = socket.gethostname()
+except:
+    HOSTNAME = 'localhost'
+
+#LIB
 from djcelery import setup_loader
 
 
