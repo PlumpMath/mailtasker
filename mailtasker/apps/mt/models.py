@@ -60,7 +60,7 @@ class TaskList(models.Model):
         body = ""
         for row in data:
             body += "".join(word.ljust(col_width) for word in row) + '\n'
-        body = body.replace(' ','_')
+        body = body.replace('  ','\t')
         post_message(self,body)
 
 class Task(models.Model):
