@@ -73,6 +73,11 @@ def collectstatic():
     local('%(run)s collectstatic --noinput' % env)
 ########## END FILE MANAGEMENT
 
+########## MAILGUN MANAGEMENT
+@task
+def create_route():
+    
+
 
 ########## HEROKU MANAGEMENT
 @task
