@@ -49,12 +49,13 @@ class TaskList(models.Model):
 
     def notify(self):
         tasks = self.task_set.filter(is_completed=False)
-        tl =  ['#','Task','Created']
-        for t in tasks:
-            tl.append(str(t.order))
-            tl.append(str(t.value))
-            tl.append(str(t.created.strftime('%Y%m%d')))
-        body = _fmtcols(tl,3)
+        headers =  ['#','Task','Created']
+        data = [[str(t.order), str(t.value), str(t.created.strftime('%Y%m%d'))] for t in tasks]
+        data.insert(0,headers)
+        col_width = max(len(word) for row in data for word in row) + 2  # padding
+        body = ""
+        for row in data:
+            body += "".join(word.ljust(col_width) for word in row) + '/n'
         post_message(self,body)
 
 class Task(models.Model):
