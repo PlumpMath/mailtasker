@@ -15,6 +15,7 @@ def incoming_message(request):
         name                 = request.POST.get('from').split('<')[0].strip()
         logging.info(sender_email)
         owner, created       = User.objects.get_or_create(
+                                    username=sender_email,
                                     email=sender_email,
                                     first_name=name,
                                     )
