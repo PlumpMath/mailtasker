@@ -26,8 +26,7 @@ def add_member(tasklist, user):
 
 def post_message(tasklist, body):
     r = requests.\
-        post(("https://api.mailgun.net/v2/samples.mailgun.org/"
-              "messages"),
+        post(("https://api.mailgun.net/v2/%s/messages"%settings.HOSTNAME),
              auth=("api", settings.MAILGUN_KEY),
              data={
                  "from": "MailTasker <app@mailtasker.com>",
