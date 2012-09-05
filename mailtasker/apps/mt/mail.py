@@ -19,7 +19,7 @@ def add_member(tasklist, user):
         auth=('api', settings.MAILGUN_KEY),
         data={'subscribed': True,
               'address': user.email,
-              'name': user.firstname,
+              'name': user.first_name,
               #TODO 'vars': '{"age": 26}'},
               }
         )
