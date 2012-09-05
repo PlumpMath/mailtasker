@@ -3,6 +3,8 @@ from django.conf import settings
 
 #LIB
 import requests
+import orderedmultidict as MultiDict
+
 
 def create_mailing_list(user):
     return requests.post(
@@ -34,5 +36,6 @@ def create_route():
                  ("action",
                   "forward('http://%s/messages/')"%settings.HOSTNAME),
                  ("action", "stop()")
-                 ]))
+                 ])
+             )
     return r
