@@ -19,8 +19,11 @@ def incoming_message(request):
                                     email=sender_email,
                                     first_name=name,
                                     )
-        list_name            = request.POST.get('subject', '')\
-                                    .replace('Re:','').strip()
+        list_name            = request.POST.get('subject', '')
+        if ':' in list_name:
+            list_name = list_name[list_name.rindex(':')+1:]
+        list_name = list_name.strip()
+
 
         logging.info(list_name)
         tasklist, created   = TaskList.objects.get_or_create(

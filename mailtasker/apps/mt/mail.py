@@ -31,7 +31,7 @@ def post_message(tasklist, body):
              data={
                  "from": "MailTasker <app@mailtasker.com>",
                  "to": ['task_list%d@%s'%(tasklist.id,settings.HOSTNAME)],
-                 "subject": tasklist.name,
+                 "subject": 'Re: %s'%tasklist.name,
                  "text": body
                  }
              )
