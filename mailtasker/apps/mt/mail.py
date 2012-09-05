@@ -37,9 +37,6 @@ def post_message(tasklist, body):
                  "In-Reply-To": tasklist.message_id or '',
                  }
              )
-    if tasklist.message_id is None:
-        tasklist.message_id = r.json['id']
-        tasklist.save()
     return r
 
 def create_route():
