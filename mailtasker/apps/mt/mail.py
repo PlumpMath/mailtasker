@@ -6,20 +6,20 @@ import requests
 from orderedmultidict import omdict as MultiDict
 
 
-def create_mailing_list(user):
+def create_mailing_list(tasklist):
     return requests.post(
         "https://api.mailgun.net/v2/lists",
         auth=('api', settings.MAILGUN_KEY),
-        data={'address': '%d@%s'%(user.id,settings.HOSTNAME)}
+        data={'address': 'tl#%d@%s'%(tasklist.id,settings.HOSTNAME)}
         )
 
-def add_member(owner, user):
+def add_member(tasklist, user):
     return requests.post(
-        "https://api.mailgun.net/v2/lists/dev@samples.mailgun.org/members",
+        "https://api.mailgun.net/v2/lists/tl#%d@%s/members"%(tasklist.id,settings.HOSTNAME),
         auth=('api', settings.MAILGUN_KEY),
         data={'subscribed': True,
               'address': user.email,
-              'name': user.name,
+              'name': user.firstname,
               #TODO 'vars': '{"age": 26}'},
               }
         )
@@ -31,7 +31,7 @@ def post_message(tasklist, body):
              auth=("api", settings.MAILGUN_KEY),
              data={
                  "from": "MailTasker <app@mailtasker.com>",
-                 "to": [tasklist.id],
+                 "to": ['tl#%d@%s'%(tasklist.id,settings.HOSTNAME)],
                  "subject": tasklist.name,
                  "text": body
                  }
@@ -46,10 +46,11 @@ def create_route():
                  ("priority", 1),
                  ("description", "Incoming route"),
                  ("expression",
-                "match_recipient('.*@%s')"%settings.HOSTNAME),
+                "match_recipient('app@%s')"%settings.HOSTNAME),
                  ("action",
                     "forward('http://%s/messages/')"%settings.HOSTNAME),
                  ("action", "stop()"),
+                 #"match_recipient('tl#(?P<tasklist_id>\d+)@%s')"%settings.HOSTNAME),
                  ])
              )
     return r

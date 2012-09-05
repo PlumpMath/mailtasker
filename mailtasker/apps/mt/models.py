@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db import models
-from django.contrib.models import User
+from django.contrib.auth.models import User
 
 from apps.mt.mail import post_message
 
