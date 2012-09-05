@@ -258,6 +258,3 @@ COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
 ]
 ########## END COMPRESSION CONFIGURATION
-
-########## MAILGUN CONFIG
-MAILGUN_KEY = environ.get('MAILGUN_KEY')
