@@ -18,6 +18,9 @@ class TaskList(models.Model):
     name = models.CharField(max_length=250)
     owner = models.ForeignKey(User)
     created = models.DateTimeField(auto_now=True)
+    message_id = models.CharField(max_length=250, blank=True, null=True, unique=True)
+
+    unique_together = ("name", "owner")
 
     def process(self, body):
         """
@@ -65,7 +68,6 @@ class Task(models.Model):
         A single task
     """
     task_list = models.ForeignKey(TaskList)
-    message_id = models.CharField(max_length=250, blank=True, null=True)
     value = models.CharField(max_length=250)
     order = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
