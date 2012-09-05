@@ -37,8 +37,11 @@ class TaskList(models.Model):
                 for task in tasks:
                     task.completed = datetime.now()
                     task.is_completed = True
-            elif line.isspace() or len(line)==0:
+            elif line.isspace():
                 continue
+            elif len(line)==0:
+                #If this is an empty line then look no further
+                break
             else:
                 #Create a new task
                 Task.objects.create(
