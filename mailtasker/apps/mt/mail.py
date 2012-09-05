@@ -10,12 +10,12 @@ def create_mailing_list(tasklist):
     return requests.post(
         "https://api.mailgun.net/v2/lists",
         auth=('api', settings.MAILGUN_KEY),
-        data={'address': 'tl#%d@%s'%(tasklist.id,settings.HOSTNAME)}
+        data={'address': 'task_list%d@%s'%(tasklist.id,settings.HOSTNAME)}
         )
 
 def add_member(tasklist, user):
     return requests.post(
-        "https://api.mailgun.net/v2/lists/tl#%d@%s/members"%(tasklist.id,settings.HOSTNAME),
+        "https://api.mailgun.net/v2/lists/task_list%d@%s/members"%(tasklist.id,settings.HOSTNAME),
         auth=('api', settings.MAILGUN_KEY),
         data={'subscribed': True,
               'address': user.email,
@@ -30,7 +30,7 @@ def post_message(tasklist, body):
              auth=("api", settings.MAILGUN_KEY),
              data={
                  "from": "MailTasker <app@mailtasker.com>",
-                 "to": ['tl#%d@%s'%(tasklist.id,settings.HOSTNAME)],
+                 "to": ['task_list%d@%s'%(tasklist.id,settings.HOSTNAME)],
                  "subject": tasklist.name,
                  "text": body
                  }
@@ -49,7 +49,7 @@ def create_route():
                  ("action",
                     "forward('http://%s/messages/')"%settings.HOSTNAME),
                  ("action", "stop()"),
-                 #"match_recipient('tl#(?P<tasklist_id>\d+)@%s')"%settings.HOSTNAME),
+                 #"match_recipient('task_list(?P<tasklist_id>\d+)@%s')"%settings.HOSTNAME),
                  ])
              )
     return r
