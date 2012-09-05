@@ -61,8 +61,7 @@ class TaskList(models.Model):
         for row in data:
             body += "".join(word.ljust(col_width) for word in row) + '\n'
         html = '<html><div>%s</div></html>'%body.replace('  ',
-            """<span class=3D=22Apple-tab-span=22 style=3D=22=
-white-space:pre=22>     </span>""")\
+            """<span class=3D=22Apple-tab-span=22 style=3D=22=white-space:pre=22>     </span>""")\
                 .replace('\n','</div><div>')
         post_message(self,body,html)
 
