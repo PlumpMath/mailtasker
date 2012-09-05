@@ -19,7 +19,8 @@ def incoming_message(request):
                                     email=sender_email,
                                     first_name=name,
                                     )
-        list_name            = request.POST.get('subject', '')
+        list_name            = request.POST.get('subject', '')\
+                                    .replace('Re:','').strip()
 
         logging.info(list_name)
         tasklist, created   = TaskList.objects.get_or_create(
