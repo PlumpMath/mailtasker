@@ -76,7 +76,9 @@ def collectstatic():
 ########## MAILGUN MANAGEMENT
 @task
 def create_route():
-    
+    """Create the default mailgun route"""
+    local('%(run)s create_route' % env)
+
 
 
 ########## HEROKU MANAGEMENT
