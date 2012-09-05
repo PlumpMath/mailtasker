@@ -37,9 +37,7 @@ class TaskList(models.Model):
                 for task in tasks:
                     task.completed = datetime.now()
                     task.is_completed = True
-            elif line.isspace():
-                continue
-            elif len(line)==0:
+            elif line.isspace() or len(line)==0:
                 #If this is an empty line then look no further
                 break
             else:
@@ -58,7 +56,7 @@ class TaskList(models.Model):
         col_width = max(len(word) for row in data for word in row) + 2  # padding
         body = ""
         for row in data:
-            body += "".join(word.ljust(col_width) for word in row) + '/n'
+            body += "".join(word.ljust(col_width) for word in row) + '\n'
         post_message(self,body)
 
 class Task(models.Model):
