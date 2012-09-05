@@ -37,7 +37,7 @@ class TaskList(models.Model):
                 for task in tasks:
                     task.completed = datetime.now()
                     task.is_completed = True
-            elif line.isspace():
+            elif line.isspace() or len(line)==0:
                 continue
             else:
                 #Create a new task
@@ -49,12 +49,12 @@ class TaskList(models.Model):
 
     def notify(self):
         tasks = self.task_set.filter(is_completed=False)
-        tl = []
+        tl =  ['#','Task','Created']
         for t in tasks:
             tl.append(str(t.order))
             tl.append(str(t.value))
             tl.append(str(t.created.strftime('%Y%m%d')))
-        body = _fmtcols(tl)
+        body = _fmtcols(tl,3)
         post_message(self,body)
 
 class Task(models.Model):
