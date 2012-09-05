@@ -12,8 +12,12 @@ from apps.mt.mail import create_mailing_list, add_member
 def incoming_message(request):
      if request.method == 'POST':
         sender_email         = request.POST.get('sender')
+        name                 = request.POST.get('from').split('<')[0].strip()
         logging.info(sender_email)
-        owner, created      = User.objects.get_or_create(email=sender_email)
+        owner, created       = User.objects.get_or_create(
+                                    email=sender_email,
+                                    first_name=name,
+                                    )
         list_name            = request.POST.get('subject', '')
 
         logging.info(list_name)
