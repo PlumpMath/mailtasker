@@ -74,4 +74,3 @@ class Task(models.Model):
     order = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
     completed = models.DateTimeField(blank=True,null=True)
-    is_completed = models.BooleanField()
