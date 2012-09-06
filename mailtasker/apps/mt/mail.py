@@ -35,7 +35,7 @@ def post_message(tasklist, body, html=None):
                  "subject": 'Re: %s'%tasklist.name,
                  "text": body,
                  "html": html,
-                 "In-Reply-To": tasklist.message_id or '',
+                 "h:In-Reply-To": tasklist.message_id or '',
                  }
              )
     return r
