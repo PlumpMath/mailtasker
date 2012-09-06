@@ -108,6 +108,14 @@ def bootstrap():
     cont('%(run)s newrelic-admin validate-config - stdout' % env,
             "Couldn't initialize New Relic, continue anyway?")
 
+@task
+def reset():
+    """Reset the PostgreSQL database
+    """
+    local('')
+    local('PGNAME=`heroku pg:info | head -1 | cut -d\  -f2`;heroku pg:reset $PGNAME')
+    syncdb()
+    migrate()
 
 @task
 def destroy():

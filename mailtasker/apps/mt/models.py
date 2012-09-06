@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 
 from apps.mt.mail import post_message
 
@@ -9,7 +10,6 @@ def _fmtcols(mylist, cols):
     #http://stackoverflow.com/questions/171662/formatting-a-list-of-text-into-columns
     lines = ("\t".join(mylist[i:i+cols]) for i in xrange(0,len(mylist),cols))
     return '\n'.join(lines)
-
 
 class TaskList(models.Model):
     """
@@ -62,9 +62,7 @@ class TaskList(models.Model):
         body = ""
         for row in data:
             body += "".join(word.ljust(col_width) for word in row) + '\n'
-        html = '<html><div>%s</div></html>'%body.replace('  ',
-            """<span class=3D=22Apple-tab-span=22 style=3D=22=white-space:pre=22>     </span>""")\
-                .replace('\n','</div><div>')
+        html = render_to_string('email.html', dictionary={'data':data}, context_instance=None)
         post_message(self,body,html)
 
 class Task(models.Model):
@@ -76,3 +74,4 @@ class Task(models.Model):
     order = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
     completed = models.DateTimeField(blank=True,null=True)
+    is_completed = models.BooleanField()
