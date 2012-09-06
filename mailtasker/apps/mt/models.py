@@ -31,15 +31,17 @@ class TaskList(models.Model):
         for line in body.split('\n'):
             if line.replace(',','').replace(' ','').isdigit():
                 #This line contains only digits and possibly commas or spaces
+                #Parse them into a list
                 if ',' in line:
-                    tasks = [int(i.strip()) for i in line.split(',')]
+                    for i in line.split(','):
+                        tasks = [int(i.strip()) for i in line.split(',')]
                 elif ' ' in line:
-                    tasks = [int(i.strip()) for i in line.split(' ')]
+                    for i in line.split(' '):
+                        tasks = [int(i.strip()) for i in line.split(' ')]
                 else:
-                    tasks = [int(line.strip())]
-                for task in tasks:
-                    task.completed = datetime.now()
-                    task.is_completed = True
+                    tasks = [int(line)]
+                #Complete the relevant Tasks
+                Task.objects.filter(pk__in=tasks).update(completed=datetime.now())
             elif line.isspace() or len(line)==0:
                 #If this is an empty line then look no further
                 break
@@ -48,11 +50,11 @@ class TaskList(models.Model):
                 Task.objects.create(
                     task_list = self,
                     value = line.strip(),
-                    order = self.task_set.filter(is_completed=False).count(),
+                    order = self.task_set.filter(completed__isnull=True).count(),
                     )
 
     def notify(self):
-        tasks = self.task_set.filter(is_completed=False)
+        tasks = self.task_set.filter(completed__isnull=True)
         headers =  ['#','Task','Created']
         data = [[str(t.order), str(t.value), str(t.created.strftime('%Y%m%d'))] for t in tasks]
         data.insert(0,headers)
@@ -74,4 +76,3 @@ class Task(models.Model):
     order = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
     completed = models.DateTimeField(blank=True,null=True)
-    is_completed = models.BooleanField()
