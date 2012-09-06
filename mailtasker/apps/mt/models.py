@@ -62,7 +62,7 @@ class TaskList(models.Model):
         body = ""
         for row in data:
             body += "".join(word.ljust(col_width) for word in row) + '\n'
-        html = render_to_string('email.html', dictionary={'data':data}, context_instance=None)
+        html = render_to_string('email.html', {'tasks':data}, context_instance=None)
         post_message(self,body,html)
 
 class Task(models.Model):

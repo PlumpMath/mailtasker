@@ -1,7 +1,7 @@
 <html>
-<body>
+<body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <table id="Table_01" width="600" height="600" border="0" cellpadding="0" cellspacing="0">
-
+{% for row in tasks %}<tr>{% for task in row %}<td>{{task}}</td>{% endfor %}</tr>{% endfor %}
 </table>
 </body>
 </html>
