@@ -37,6 +37,6 @@ def incoming_message(request):
             tasklist.message_id = message_id
         body                  = request.POST.get('stripped-text', '')
         tasklist.process(body)
-        tasklist.notify()
+        tasklist.notify(message_id=message_id)
 
      return HttpResponse('OK')

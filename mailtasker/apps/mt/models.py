@@ -51,13 +51,13 @@ class TaskList(models.Model):
                 Task.objects.create(
                     task_list = self,
                     value = line.strip(),
-                    order = self.task_set.filter(completed__isnull=True).count(),
+                    order = self.task_set.count(),
                     )
             elif line.isspace() or len(line)==0:
                 #If this is an empty line then look no further
                 break
 
-    def notify(self):
+    def notify(self, message_id=None):
         tasks = self.task_set.filter(completed__isnull=True)
         headers =  ['#','Task','Created']
         data = [[str(t.order), str(t.value), str(t.created.strftime('%Y%m%d'))] for t in tasks]
@@ -67,7 +67,7 @@ class TaskList(models.Model):
         for row in data:
             body += "".join(word.ljust(col_width) for word in row) + '\n'
         html = render_to_string('email.html', {'tasks':data}, context_instance=None)
-        post_message(self,body,html)
+        post_message(self,body,html,message_id=message_id)
 
 class Task(models.Model):
     """

@@ -24,7 +24,7 @@ def add_member(tasklist, user):
               }
         )
 
-def post_message(tasklist, body, html=None):
+def post_message(tasklist, body, html=None, message_id=None):
 
     r = requests.\
         post(("https://api.mailgun.net/v2/%s/messages"%settings.HOSTNAME),
@@ -35,7 +35,7 @@ def post_message(tasklist, body, html=None):
                  "subject": 'Re: %s'%tasklist.name,
                  "text": body,
                  "html": html,
-                 "h:In-Reply-To": tasklist.message_id or '',
+                 "h:In-Reply-To": message_id or tasklist.message_id,
                  }
              )
     return r
