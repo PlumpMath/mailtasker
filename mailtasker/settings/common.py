@@ -239,6 +239,21 @@ CELERY_TASK_RESULT_EXPIRES = timedelta(minutes=30)
 
 # See: http://celery.github.com/celery/django/
 setup_loader()
+
+
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    # Executes every Monday morning at 7:30 A.M
+    'every-morning': {
+        'task': 'app.mt.tasks.notify_all_users',
+        'schedule': crontab(hour=6, minute=00),
+    },
+    'every-evening': {
+        'task': 'app.mt.tasks.notify_all_users',
+        'schedule': crontab(hour=20, minute=00),
+    },
+}
 ########## END CELERY CONFIGURATION
 
 
