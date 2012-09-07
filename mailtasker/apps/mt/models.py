@@ -41,17 +41,21 @@ class TaskList(models.Model):
                 else:
                     tasks = [int(line)]
                 #Complete the relevant Tasks
-                Task.objects.filter(pk__in=tasks).update(completed=datetime.now())
+                self.task_set.filter(order__in=tasks).update(completed=datetime.now())
             elif line.isspace() or len(line)==0:
                 #If this is an empty line then look no further
                 break
-            else:
+        for line in body.split('\n'):
+            if not line.replace(',','').replace(' ','').isdigit():
                 #Create a new task
                 Task.objects.create(
                     task_list = self,
                     value = line.strip(),
                     order = self.task_set.filter(completed__isnull=True).count(),
                     )
+            elif line.isspace() or len(line)==0:
+                #If this is an empty line then look no further
+                break
 
     def notify(self):
         tasks = self.task_set.filter(completed__isnull=True)
