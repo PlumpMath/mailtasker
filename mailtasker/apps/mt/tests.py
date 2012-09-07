@@ -11,6 +11,7 @@ from django.test import TestCase
 
 
 class TaskListTests(TestCase):
+
     def test_process(self):
         """
         Tests that 1 + 1 always equals 2.
@@ -46,3 +47,15 @@ class TaskListTests(TestCase):
         t.process(body)
 
         self.assertEquals(Task.objects.filter(completed__isnull=True).count(),1)
+
+        t2 = TaskList.objects.create(
+            name="test2",
+            owner=user
+            )
+        body = """this is another test
+        make it work real nice
+        """
+        t2.process(body)
+
+        self.assertEquals(Task.objects.filter(completed__isnull=True).count(),3)
+

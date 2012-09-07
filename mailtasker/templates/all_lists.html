@@ -1,9 +1,12 @@
 <html>
 <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
-
+{% for list in lists %}
+<h3>{{list.name}}</h3>
 <table id="Table_01" width="600" border="0" cellpadding="0" cellspacing="0">
-{% for task in tasks %}<tr><td>{{task.order}}</td><td>{{task.value}}</td><td>{{task.created_pretty}}</td></tr>{% endfor %}
+{% for task in list.task_set.all %}{% if not task.completed %}<tr><td>{{task.order}}</td><td>{{task.value}}</td><td>{{task.created_pretty}}</td></tr>{% endif %}{% endfor %}
 </table>
+<br/><br/>
+{% endfor %}
 --------------------<br>
 <a href="http://www.mailtasker.com">MailTasker</a><br>
 </body>

@@ -4,12 +4,21 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
+import pretty
+
 from apps.mt.mail import post_message
 
-def _fmtcols(mylist, cols):
-    #http://stackoverflow.com/questions/171662/formatting-a-list-of-text-into-columns
-    lines = ("\t".join(mylist[i:i+cols]) for i in xrange(0,len(mylist),cols))
-    return '\n'.join(lines)
+class TaskManager(models.Manager):
+    def render_all(self, owner):
+        lists = super(TaskManager, self).get_query_set().filter(owner=owner)
+        body = render_to_string('all_lists_plain_text.html', {'lists':lists})
+        html = render_to_string('all_lists.html', {'lists':lists})
+        return body, html
+
+    def notify_all(self, owner):
+        body, html = self.render_all(owner=owner)
+        post_message(self,body,html)
+
 
 class TaskList(models.Model):
     """
@@ -19,6 +28,7 @@ class TaskList(models.Model):
     owner = models.ForeignKey(User)
     created = models.DateTimeField(auto_now=True)
     message_id = models.CharField(max_length=250, blank=True, null=True, unique=True)
+    objects = TaskManager()
 
     unique_together = ("name", "owner")
 
@@ -57,16 +67,15 @@ class TaskList(models.Model):
                     order = self.task_set.count(),
                     )
 
-    def notify(self, message_id=None):
+    def render(self):
         tasks = self.task_set.filter(completed__isnull=True)
-        headers =  ['#','Task','Created']
-        data = [[str(t.order), str(t.value), str(t.created.strftime('%Y%m%d'))] for t in tasks]
-        data.insert(0,headers)
-        col_width = max(len(word) for row in data for word in row) + 2  # padding
-        body = ""
-        for row in data:
-            body += "".join(word.ljust(col_width) for word in row) + '\n'
-        html = render_to_string('email.html', {'tasks':data}, context_instance=None)
+        body = render_to_string('email_plain_text.html', {'tasks':tasks})
+        html = render_to_string('email.html', {'tasks':tasks})
+        return body, html
+
+    def notify(self, body=None, html=None, message_id=None):
+        if not body or not html:
+            body, html = self.render
         post_message(self,body,html,message_id=message_id)
 
 class Task(models.Model):
@@ -78,3 +87,9 @@ class Task(models.Model):
     order = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now=True)
     completed = models.DateTimeField(blank=True,null=True)
+
+    def created_pretty(self):
+        return pretty(getattr(self,'created'))
+
+    def completed_pretty(self):
+        return pretty(getattr(self,'completed'))

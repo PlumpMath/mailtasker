@@ -1,0 +1,9 @@
+{% for list in lists %}
+{{list.name}}
+--------------------
+# Value Date Created
+{% for task in list.task_set.all %}{% if not task.completed %}{{task.order}}{{task.value}}{{task.created_pretty}}
+{% endif %}{% endfor %}
+{% endfor %}
+--------------------
+<a href="http://www.mailtasker.com">MailTasker</a><br>

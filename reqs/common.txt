@@ -6,3 +6,4 @@ South==0.7.6
 Sphinx==1.1.3
 requests==0.14.0
 orderedmultidict==0.7
+py-pretty==1
