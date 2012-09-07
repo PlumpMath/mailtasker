@@ -46,6 +46,9 @@ class TaskList(models.Model):
                 #If this is an empty line then look no further
                 break
         for line in body.split('\n'):
+            if line.isspace() or len(line)==0:
+                #If this is an empty line then look no further
+                break
             if not line.replace(',','').replace(' ','').isdigit():
                 #Create a new task
                 Task.objects.create(
@@ -53,9 +56,6 @@ class TaskList(models.Model):
                     value = line.strip(),
                     order = self.task_set.count(),
                     )
-            elif line.isspace() or len(line)==0:
-                #If this is an empty line then look no further
-                break
 
     def notify(self, message_id=None):
         tasks = self.task_set.filter(completed__isnull=True)

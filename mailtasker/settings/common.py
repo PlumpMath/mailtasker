@@ -263,6 +263,14 @@ COMPRESS_JS_FILTERS = [
 ]
 ########## END COMPRESSION CONFIGURATION
 
+############### TEST CONFIGURATION
+# This would be if you put all your tests within a top-level "tests" package.
+TEST_DISCOVERY_ROOT = normpath(join(DJANGO_ROOT, 'apps/mt'))
+
+# This assumes you place the above ``DiscoveryRunner`` in ``tests/runner.py``.
+TEST_RUNNER = 'runner.DiscoveryRunner'
+############## END TEST CONFIGURATION######### END COMPRESSION CONFIGURATION
+
 ########## MAILGUN CONFIG
 MAILGUN_KEY = environ.get('MAILGUN_KEY')
 ########## END MAILGUN CONFIG
