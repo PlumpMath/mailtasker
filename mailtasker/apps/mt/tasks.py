@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from celery import task
 
 @task
 def notify_all_users():
