@@ -75,7 +75,7 @@ class TaskList(models.Model):
 
     def notify(self, body=None, html=None, message_id=None):
         if not body or not html:
-            body, html = self.render
+            body, html = self.render()
         post_list_message(self,body,html,message_id=message_id)
 
 class Task(models.Model):
