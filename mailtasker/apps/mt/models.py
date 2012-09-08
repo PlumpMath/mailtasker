@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 
 import pretty
 
-from apps.mt.mail import post_message
+from apps.mt.mail import post_message, post_list_message
 
 class TaskManager(models.Manager):
     def render_all(self, owner):
@@ -17,7 +17,7 @@ class TaskManager(models.Manager):
 
     def notify_all(self, owner):
         body, html = self.render_all(owner=owner)
-        post_message(self,body,html)
+        post_message(owner.email,'MailTasker Daily Update',body,html)
 
 
 class TaskList(models.Model):
@@ -76,7 +76,7 @@ class TaskList(models.Model):
     def notify(self, body=None, html=None, message_id=None):
         if not body or not html:
             body, html = self.render
-        post_message(self,body,html,message_id=message_id)
+        post_list_message(self,body,html,message_id=message_id)
 
 class Task(models.Model):
     """

@@ -24,7 +24,22 @@ def add_member(tasklist, user):
               }
         )
 
-def post_message(tasklist, body, html=None, message_id=None):
+def post_message(to, subject, body, html=None, message_id=None):
+    r = requests.\
+        post(("https://api.mailgun.net/v2/%s/messages"%settings.HOSTNAME),
+             auth=("api", settings.MAILGUN_KEY),
+             data={
+                 "from": "MailTasker <app@mailtasker.com>",
+                 "to": [to],
+                 "subject": subject,
+                 "text": body,
+                 "html": html or '',
+                 "h:In-Reply-To": message_id or 'mailtaskerdaily',
+                 }
+             )
+    return r
+
+def post_list_message(tasklist, body, html=None, message_id=None):
 
     r = requests.\
         post(("https://api.mailgun.net/v2/%s/messages"%settings.HOSTNAME),
@@ -34,7 +49,7 @@ def post_message(tasklist, body, html=None, message_id=None):
                  "to": ['task_list%d@%s'%(tasklist.id,settings.HOSTNAME)],
                  "subject": 'Re: %s'%tasklist.name,
                  "text": body,
-                 "html": html,
+                 "html": html or '',
                  "h:In-Reply-To": message_id or tasklist.message_id,
                  }
              )
